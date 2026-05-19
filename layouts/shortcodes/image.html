@@ -1,0 +1,16 @@
+<style>
+  .gray-text {
+    color: #808080;
+  }
+</style>
+
+{{ if .Get "title" }}
+  <figure>
+	  <div style="display: grid; place-items: center;">
+      <img src="{{ .Get "src" | relURL }}" alt="{{ .Get "alt" }}" style="width: {{ .Get "width" }}; height: auto;">
+      <figcaption style="font-size: 16px;" class="gray-text">{{ .Get "title" | markdownify }}</figcaption>
+    </div>
+  </figure>
+{{ else }}
+  <img src="{{ .Get "src" | relURL }}" alt="{{ .Get "alt" }}" style="width: {{ .Get "width" }}; height: auto;">
+{{ end }}

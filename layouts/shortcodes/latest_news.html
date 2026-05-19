@@ -1,0 +1,14 @@
+{{ $news := where .Site.RegularPages "Section" "news" }}
+{{ if eq (len $news) 0 }}
+    {{ $news = where .Site.RegularPages "Type" "news" }}
+{{ end }}
+{{ range first 5 $news }}
+<div class="news-entry">
+    <div class="news-header">
+        <span class="news-date">{{ .Date.Format "2006/01" }}</span>
+        <a href="{{ .RelPermalink }}" class="news-title">
+            {{ .Title | markdownify }}
+        </a>
+    </div>
+</div>
+{{ end }}

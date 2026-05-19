@@ -1,0 +1,123 @@
+<div class="news-section">
+    {{ .Inner }}
+</div>
+
+<style>
+.news-section {
+    margin: 1.8rem 0 0;
+    padding: 1.25rem 1.25rem 0.35rem;
+    border: 1px solid rgba(50, 60, 70, 0.12);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.72);
+    box-shadow: 0 12px 28px rgba(20, 30, 40, 0.05);
+}
+
+.news-entry {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.9rem;
+    position: relative;
+    padding: 0.95rem 1rem 0.95rem 1.15rem;
+    border-radius: 14px;
+    background: rgba(245, 247, 248, 0.95);
+    transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.news-entry:hover {
+    transform: translateX(4px);
+    box-shadow: 0 8px 18px rgba(20, 30, 40, 0.08);
+}
+
+/* Dot on the vertical line */
+.news-entry::before {
+    content: "";
+    position: absolute;
+    left: -0.2rem;
+    top: 1.25rem;
+    width: 0.7rem;
+    height: 0.7rem;
+    background-color: #1f6f78;
+    border-radius: 50%;
+    border: 2px solid #fff;
+}
+
+.news-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0;
+}
+
+.news-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: inherit;
+    text-decoration: none;
+    padding-bottom: 0;
+    line-height: 1.5;
+}
+
+.news-title:hover {
+    color: var(--primary);
+    text-decoration: underline;
+}
+
+.news-date {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 74px;
+    padding: 0.28rem 0.58rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #1f6f78;
+    background: rgba(31, 111, 120, 0.12);
+    white-space: nowrap;
+}
+
+.news-text {
+    font-size: 1rem;
+    color: #333;
+}
+
+.dark .news-section {
+    border-color: rgba(180, 190, 200, 0.12);
+    background: rgba(18, 25, 33, 0.72);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.16);
+}
+
+.dark .news-entry::before {
+    background-color: #4ecdc4;
+    border-color: #1d1e20;
+}
+
+.dark .news-entry {
+    background: rgba(24, 34, 44, 0.94);
+}
+
+.dark .news-title {
+    color: var(--primary);
+}
+
+.dark .news-date {
+    color: #4ecdc4;
+    background: rgba(78, 205, 196, 0.12);
+}
+
+.dark .news-text {
+    color: #ddd;
+}
+
+@media (max-width: 700px) {
+    .news-section {
+        padding: 1rem 0.9rem 0.25rem;
+    }
+
+    .news-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.55rem;
+    }
+}
+</style> 

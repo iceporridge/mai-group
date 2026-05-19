@@ -1,0 +1,243 @@
+<div id="dino-game-fullwidth-wrapper">
+    <div id="dino-game-container">
+        <canvas id="dinoGame" height="200"></canvas>
+    </div>
+</div>
+
+<style>
+    /* Make the game a background for the page bottom */
+    #dino-game-fullwidth-wrapper {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100vw;
+        height: 200px; /* Increased height */
+        z-index: 1000; /* Extremely high z-index to stay on top */
+        pointer-events: none; /* Allows interacting with everything underneath */
+        opacity: 0.8;
+    }
+
+    #dino-game-container {
+        width: 100%;
+        height: 100%;
+        position: relative;
+    }
+
+    #dinoGame {
+        display: block;
+        width: 100%;
+        height: 200px;
+        background-color: transparent;
+    }
+
+    /* Force all potential content containers to be transparent */
+    body, 
+    .main, 
+    .post-single, 
+    .post-content, 
+    article,
+    footer,
+    .footer {
+        background: transparent !important;
+        background-color: transparent !important;
+    }
+    
+    html {
+        background-color: var(--theme) !important;
+    }
+    
+    body {
+        background-color: var(--theme) !important;
+        min-height: 100vh;
+    }
+</style>
+
+<script>
+    (function() {
+        const canvas = document.getElementById('dinoGame');
+        const ctx = canvas.getContext('2d');
+
+        let gameSpeed = 7;
+        let frame = 0;
+        const obstacles = [];
+        const clouds = [];
+        // groundY is now 192, keeping about 8px of ground visible at the bottom (200 - 192)
+        const groundY = 192; 
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        const dino = {
+            x: 80,
+            y: groundY - 47,
+            width: 44,
+            height: 47,
+            dy: 0,
+            jumpForce: 13,
+            gravity: 0.7,
+            grounded: true,
+            jump() {
+                if (this.grounded) {
+                    this.dy = -this.jumpForce;
+                    this.grounded = false;
+                }
+            },
+            update() {
+                this.dy += this.gravity;
+                this.y += this.dy;
+
+                if (this.y + this.height > groundY) {
+                    this.y = groundY - this.height;
+                    this.dy = 0;
+                    this.grounded = true;
+                }
+
+                const upcoming = obstacles.find(o => o.x + o.width > this.x);
+                if (upcoming && this.grounded) {
+                    const distance = upcoming.x - (this.x + this.width);
+                    const triggerThreshold = 70 + (gameSpeed * 4.5); 
+                    if (distance > -10 && distance < triggerThreshold) {
+                        this.jump();
+                    }
+                }
+            },
+            draw() {
+                const color = getComputedStyle(document.documentElement).getPropertyValue('--secondary').trim() || '#535353';
+                ctx.fillStyle = color;
+                
+                const px = Math.round(this.x);
+                const py = Math.round(this.y);
+
+                // Pixel Dino
+                ctx.fillRect(px + 22, py, 22, 16); // Head
+                ctx.fillRect(px + 34, py + 12, 10, 8); // Snout
+                
+                // Eye
+                ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--theme').trim() || '#fff';
+                ctx.fillRect(px + 28, py + 4, 4, 4);
+
+                // Body
+                ctx.fillStyle = color;
+                ctx.fillRect(px + 10, py + 16, 24, 16); 
+                ctx.fillRect(px, py + 22, 10, 10); 
+                ctx.fillRect(px + 6, py + 28, 4, 4); 
+                ctx.fillRect(px + 22, py + 12, 8, 8);
+
+                // Feet
+                if (!this.grounded) {
+                    ctx.fillRect(px + 12, py + 32, 8, 8);
+                    ctx.fillRect(px + 24, py + 32, 8, 8);
+                } else {
+                    const step = Math.floor(frame / 6) % 2;
+                    if (step === 0) {
+                        ctx.fillRect(px + 12, py + 32, 8, 8);
+                        ctx.fillRect(px + 24, py + 32, 8, 4);
+                    } else {
+                        ctx.fillRect(px + 12, py + 32, 8, 4);
+                        ctx.fillRect(px + 24, py + 32, 8, 8);
+                    }
+                }
+            }
+        };
+
+        class Obstacle {
+            constructor() {
+                this.type = Math.random() > 0.4 ? 'small' : 'large';
+                this.width = this.type === 'small' ? 24 : 48;
+                this.height = this.type === 'small' ? 40 : 50;
+                this.x = canvas.width + 50;
+                this.y = groundY - this.height;
+            }
+            draw() {
+                const color = getComputedStyle(document.documentElement).getPropertyValue('--secondary').trim() || '#535353';
+                ctx.fillStyle = color;
+                if (this.type === 'small') {
+                    this.drawCactus(this.x, this.y, 24, 40);
+                } else {
+                    this.drawCactus(this.x, this.y, 22, 50);
+                    this.drawCactus(this.x + 26, this.y + 5, 22, 45);
+                }
+            }
+            drawCactus(x, y, w, h) {
+                const center = Math.floor(x + w / 2 - 4);
+                ctx.fillRect(center, y, 8, h);
+                ctx.fillRect(x, y + h * 0.4, w, 6);
+                ctx.fillRect(x, y + h * 0.2, 6, h * 0.2);
+                ctx.fillRect(x + w - 6, y + h * 0.2, 6, h * 0.2);
+            }
+            update() {
+                this.x -= gameSpeed;
+            }
+        }
+
+        function drawHorizon() {
+            const color = getComputedStyle(document.documentElement).getPropertyValue('--border').trim() || '#d3d3d3';
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(0, groundY);
+            ctx.lineTo(canvas.width, groundY);
+            ctx.stroke();
+
+            ctx.fillStyle = color;
+            for(let i=0; i < canvas.width + 300; i += 200) {
+                const x = (i - (frame * gameSpeed) % 200 + 200) % (canvas.width + 300) - 100;
+                ctx.fillRect(x, groundY + 4, 3, 2);
+                ctx.fillRect(x + 70, groundY + 6, 2, 2);
+            }
+        }
+
+        function drawCloud(c) {
+            ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--tertiary').trim() || '#eee';
+            const x = Math.round(c.x);
+            const y = Math.round(c.y);
+            ctx.fillRect(x + 12, y, 32, 10);
+            ctx.fillRect(x, y + 6, 46, 10);
+            ctx.fillRect(x + 6, y - 6, 20, 10);
+            ctx.fillRect(x + 24, y - 4, 14, 8);
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            if (frame % 240 === 0) {
+                clouds.push({ x: canvas.width + 100, y: 40 + Math.random() * 80, s: 1 });
+            }
+            clouds.forEach((c, i) => {
+                c.x -= c.s;
+                drawCloud(c);
+                if (c.x < -100) clouds.splice(i, 1);
+            });
+
+            drawHorizon();
+
+            if (frame % 100 === 0 && Math.random() > 0.6) {
+                const last = obstacles[obstacles.length - 1];
+                if (!last || canvas.width - last.x > 450) {
+                    obstacles.push(new Obstacle());
+                }
+            }
+
+            for (let i = obstacles.length - 1; i >= 0; i--) {
+                obstacles[i].update();
+                obstacles[i].draw();
+                if (obstacles[i].x + obstacles[i].width < -50) {
+                    obstacles.splice(i, 1);
+                    if (gameSpeed < 11) gameSpeed += 0.005;
+                }
+            }
+
+            dino.update();
+            dino.draw();
+
+            frame++;
+            animationId = requestAnimationFrame(animate);
+        }
+
+        animate();
+    })();
+</script>

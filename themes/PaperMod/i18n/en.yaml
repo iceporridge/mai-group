@@ -1,0 +1,51 @@
+- id: prev_page
+  translation: "Prev"
+
+- id: next_page
+  translation: "Next"
+
+- id: read_time
+  translation:
+    one : "1 min"
+    other: "{{ .Count }} min"
+
+- id: words
+  translation:
+    one : "word"
+    other: "{{ .Count }} words"
+
+- id: toc
+  translation: "Table of Contents"
+
+- id: translations
+  translation: "Translations"
+
+- id: home
+  translation: "Home"
+
+- id: edit_post
+  translation: "Edit"
+
+- id: code_copy
+  translation: "copy"
+
+- id: code_copied
+  translation: "copied!"
+
+- id: research_direction_1_title
+  translation: "Game for AI"
+
+- id: research_direction_1_desc
+  translation: "Regard games as benchmark to test AI capability boundaries. Including but not limited to: Reinforcement Learning, Multi-Agent Systems, Large Language Models, Multimodal Models, Embodied AI, etc."
+
+- id: research_direction_2_title
+  translation: "AI for Game"
+
+- id: research_direction_2_desc
+  translation: "Leverage AI to create game development tools, improving quality and reducing costs in game development and operations. Including but not limited to: 2D/3D Art Asset Development, Unity/UE Code Agents, Game Marketing Video Generation, etc."
+
+- id: research_direction_3_title
+  translation: "AI in Game"
+
+- id: research_direction_3_desc
+  translation: "Create fun AI-native games with the goal of future commercialization. Similar products on the market: Pepper Simulator, 1001 Nights, etc."

@@ -1,0 +1,17 @@
+{{ define "main" }}
+<article class="post-single publications-page">
+  <header class="post-header publications-page__header">
+    {{ partial "breadcrumbs.html" . }}
+    <h1 class="post-title entry-hint-parent">Publications</h1>
+    <div class="publications-page__lede">
+      Selected papers from the lab, grouped by year and styled for faster scanning.
+    </div>
+  </header>
+
+  <div class="post-content publications-page__content">
+    {{ .Content }}
+  </div>
+</article>
+
+<script src="/js/filter.js"></script>
+{{ end }}

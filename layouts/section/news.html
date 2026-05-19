@@ -1,0 +1,181 @@
+{{- define "main" -}}
+
+{{- if (and site.Params.profileMode.enabled .IsHome) -}}
+{{- partial "index_profile.html" . -}}
+{{- else -}}
+
+{{- $style := site.Params.newsStyle | default "legacy" -}}
+{{- $pages := where .Site.RegularPages "Type" "in" (slice "news") -}}
+{{- $paginator := .Paginate $pages -}}
+
+{{- if eq $style "enhanced" -}}
+<article class="post-single news-page">
+  <header class="post-header news-page__header">
+    {{ partial "breadcrumbs.html" . }}
+    <h1 class="post-title entry-hint-parent">{{ .Title }}</h1>
+    <div class="news-page__lede">
+      Lab updates, paper acceptances, and milestones in a cleaner timeline-inspired feed.
+    </div>
+  </header>
+
+  <section class="news-feed">
+    {{- range $paginator.Pages -}}
+    {{- $venueSlug := lower .Title -}}
+    {{- $newsClass := "news-card--generic" -}}
+    {{- if in $venueSlug "cvpr" -}}
+      {{- $newsClass = "news-card--cvpr" -}}
+    {{- else if in $venueSlug "iccv" -}}
+      {{- $newsClass = "news-card--iccv" -}}
+    {{- else if in $venueSlug "eccv" -}}
+      {{- $newsClass = "news-card--eccv" -}}
+    {{- else if in $venueSlug "neurips" -}}
+      {{- $newsClass = "news-card--neurips" -}}
+    {{- else if in $venueSlug "iclr" -}}
+      {{- $newsClass = "news-card--iclr" -}}
+    {{- else if in $venueSlug "icml" -}}
+      {{- $newsClass = "news-card--icml" -}}
+    {{- else if in $venueSlug "aaai" -}}
+      {{- $newsClass = "news-card--aaai" -}}
+    {{- else if in $venueSlug "ijcai" -}}
+      {{- $newsClass = "news-card--ijcai" -}}
+    {{- else if in $venueSlug "acm mm" -}}
+      {{- $newsClass = "news-card--acmmm" -}}
+    {{- else if in $venueSlug "miccai" -}}
+      {{- $newsClass = "news-card--miccai" -}}
+    {{- end -}}
+    <article class="news-card {{ $newsClass }}">
+      <div class="news-card__rail">
+        <span class="news-card__dot"></span>
+      </div>
+      <div class="news-card__body">
+        <div class="news-card__meta">
+          <time class="news-card__date">{{ .Date.Format "2006.01.02" }}</time>
+        </div>
+        <h2 class="news-card__title">
+          {{- if .Params.redirect_url -}}
+            <a href="{{ .Params.redirect_url }}">{{ .Title }}</a>
+          {{- else -}}
+            <a href="{{ .Permalink }}">{{ .Title }}</a>
+          {{- end -}}
+        </h2>
+        {{ with .Summary }}
+        <div class="news-card__summary">
+          {{ . | plainify | truncate 150 }}
+        </div>
+        {{ end }}
+      </div>
+    </article>
+    {{- end -}}
+  </section>
+
+  {{- if gt $paginator.TotalPages 1 -}}
+  <footer class="pagination-footer">
+    {{ template "_internal/pagination.html" . }}
+  </footer>
+  {{- end -}}
+</article>
+{{- else -}}
+
+<style>
+.news-section {
+    margin: 2rem 0;
+    border-left: 2px solid #eee;
+    padding-left: 1.5rem;
+}
+
+.news-entry {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.news-entry::before {
+    content: "";
+    position: absolute;
+    left: -1.85rem;
+    top: 0.4rem;
+    width: 0.6rem;
+    height: 0.6rem;
+    background-color: #ccc;
+    border-radius: 50%;
+    border: 2px solid #fff;
+}
+
+.news-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 0.2rem;
+}
+
+.news-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px dashed #999;
+    padding-bottom: 2px;
+}
+
+.news-title:hover {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+}
+
+.news-date {
+    font-size: 0.85rem;
+    color: #666;
+    white-space: nowrap;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.news-text {
+    font-size: 1rem;
+    color: #333;
+}
+
+@media (prefers-color-scheme: dark) {
+    .news-section {
+        border-left-color: #444;
+    }
+    .news-entry::before {
+        background-color: #666;
+        border-color: #1d1e20;
+    }
+    .news-title {
+        border-bottom-color: #666;
+    }
+    .news-date {
+        color: #aaa;
+    }
+    .news-text {
+        color: #ddd;
+    }
+}
+</style>
+
+<div class="news-section">
+  {{- range $paginator.Pages -}}
+  <div class="news-entry">
+    <div class="news-header">
+        <span class="news-date">{{ .Date.Format "2006/01/02" }}</span>
+        {{- if .Params.redirect_url -}}
+          <a href="{{ .Params.redirect_url }}" class="news-title">{{ .Title }}</a>
+        {{- else -}}
+          <a href="{{ .Permalink }}" class="news-title">{{ .Title }}</a>
+        {{- end -}}
+    </div>
+  </div>
+  {{- end -}}
+</div>
+
+{{- if gt $paginator.TotalPages 1 -}}
+<footer class="pagination-footer">
+  {{ template "_internal/pagination.html" . }}
+</footer>
+{{- end -}}
+{{- end -}}
+{{- end -}}
+
+{{- end -}}{{/* end main */}}

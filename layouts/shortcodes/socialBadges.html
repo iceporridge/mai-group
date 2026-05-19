@@ -1,0 +1,61 @@
+<style>
+  .badge-container {
+    display: flex;
+    flex-wrap: nowrap;        /* keep items in a single row */
+    gap: 60px;
+    padding-left: 30px;
+    justify-content: flex-start;
+    overflow-x: auto;         /* make it scrollable horizontally */
+  }
+
+  /* Mobile-friendly layout */
+  @media (max-width: 600px) {
+    .badge-container {
+      gap: 60px;
+      padding-left: 30px;
+    }
+    .badge-container a {
+      flex-shrink: 0;
+    }
+  }
+</style>
+
+<div class="badge-container">
+    {{ if .Get "github" }}
+        <a href="https://github.com/{{ .Get "github" }}" target="_blank" rel="noopener noreferrer">
+          <img src="https://img.shields.io/github/stars/{{ .Get "github" }}?style=social" style="transform: scale(1.5);">
+        </a>
+    {{ end }}
+
+    {{ if .Get "arxiv-index" }}
+        <a href="https://arxiv.org/abs/{{ .Get "arxiv-index" }}" target="_blank" rel="noopener noreferrer">
+          <img src="https://img.shields.io/badge/arXiv-{{ .Get "arxiv-index" }}-white.svg?style=social" style="transform: scale(1.5);">
+        </a>
+    {{ end }}
+    
+    {{ if .Get "demo" }}
+        <a href="{{ .Get "demo" }}" target="_blank" rel="noopener noreferrer">
+          <img src="https://img.shields.io/badge/🎮%20demo--green.svg?style=social" style="transform: scale(1.5);">
+        </a>
+    {{ end }}
+
+    {{ if .Get "huggingface" }}
+        <a href="{{ .Get "huggingface" }}" target="_blank" rel="noopener noreferrer">
+          <img src="https://img.shields.io/badge/🤗%20huggingface--green.svg?style=social" style="transform: scale(1.5);">
+        </a>
+    {{ end }}
+
+    {{ if .Get "slack" }}
+      <a href="{{ .Get "slack" }}" target="_blank" rel="noopener noreferrer">
+        <img src="https://img.shields.io/badge/Slack--4A154B?style=social&logo=slack&logoColor=blue"
+            alt="Slack"
+            style="transform: scale(1.5);">
+      </a>
+    {{ end }}
+
+    {{ if .Get "discord" }}
+      <a href="{{ .Get "discord" }}" target="_blank" rel="noopener noreferrer">
+        <img src="https://img.shields.io/badge/Discord-Join-5865F2?style=flat&logo=discord&logoColor=white" style="transform: scale(1.5);">
+      </a>
+    {{ end }}
+</div>

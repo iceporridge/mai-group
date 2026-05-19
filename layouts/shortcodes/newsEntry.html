@@ -1,0 +1,15 @@
+
+<div class="news-entry">
+    <div class="news-header">
+        <span class="news-date">{{ .Get "date" }}</span>
+        {{ if .Get "link" }}
+        <a href="{{ .Get "link" }}" class="news-title">
+            {{ .Inner | markdownify }}
+        </a>
+        {{ else }}
+        <span class="news-title" style="border-bottom: none;">
+            {{ .Inner | markdownify }}
+        </span>
+        {{ end }}
+    </div>
+</div>

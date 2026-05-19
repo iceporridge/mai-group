@@ -1,0 +1,131 @@
+<style>
+    #snake-canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        opacity: 0.1; /* Subtle background */
+        pointer-events: none;
+    }
+</style>
+<canvas id="snake-canvas"></canvas>
+<script>
+    (function() {
+        const canvas = document.getElementById('snake-canvas');
+        if (!canvas) return;
+
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+        
+        let width, height;
+        const gridSize = 20;
+        let snake = [];
+        let food = {};
+        let direction = 'right';
+        let animationFrameId = null;
+        let timeoutId = null;
+        let lastStep = 0;
+        const stepInterval = 140;
+        
+        function resize() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+        }
+        
+        window.addEventListener('resize', resize, { passive: true });
+        resize();
+        
+        function initGame() {
+            snake = [
+                {x: 10, y: 10},
+                {x: 9, y: 10},
+                {x: 8, y: 10}
+            ];
+            spawnFood();
+            direction = 'right';
+        }
+        
+        function spawnFood() {
+            food = {
+                x: Math.floor(Math.random() * (width / gridSize)),
+                y: Math.floor(Math.random() * (height / gridSize))
+            };
+        }
+        
+        function update() {
+            // Simple AI: Move towards food
+            const head = snake[0];
+            
+            // Determine direction to move towards food
+            if (head.x < food.x) direction = 'right';
+            else if (head.x > food.x) direction = 'left';
+            else if (head.y < food.y) direction = 'down';
+            else if (head.y > food.y) direction = 'up';
+            
+            // Move snake
+            let newHead = {x: head.x, y: head.y};
+            if (direction === 'right') newHead.x++;
+            else if (direction === 'left') newHead.x--;
+            else if (direction === 'down') newHead.y++;
+            else if (direction === 'up') newHead.y--;
+            
+            // Wrap around screen
+            if (newHead.x * gridSize >= width) newHead.x = 0;
+            if (newHead.x < 0) newHead.x = Math.floor(width / gridSize) - 1;
+            if (newHead.y * gridSize >= height) newHead.y = 0;
+            if (newHead.y < 0) newHead.y = Math.floor(height / gridSize) - 1;
+            
+            snake.unshift(newHead);
+            
+            // Check collision with food
+            if (Math.abs(newHead.x - food.x) < 1 && Math.abs(newHead.y - food.y) < 1) {
+                spawnFood();
+            } else {
+                snake.pop();
+            }
+        }
+        
+        function draw() {
+            ctx.clearRect(0, 0, width, height);
+            
+            // Draw Snake
+            ctx.fillStyle = document.body.classList.contains('dark') ? '#4ade80' : '#22c55e';
+            snake.forEach(segment => {
+                ctx.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize - 2, gridSize - 2);
+            });
+            
+            // Draw Food
+            ctx.fillStyle = document.body.classList.contains('dark') ? '#f87171' : '#ef4444';
+            ctx.fillRect(food.x * gridSize, food.y * gridSize, gridSize - 2, gridSize - 2);
+        }
+        
+        function loop(timestamp) {
+            if (document.hidden) {
+                animationFrameId = requestAnimationFrame(loop);
+                return;
+            }
+
+            if (!lastStep || timestamp - lastStep >= stepInterval) {
+                update();
+                draw();
+                lastStep = timestamp;
+            }
+
+            animationFrameId = requestAnimationFrame(loop);
+        }
+        
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden) {
+                lastStep = 0;
+            }
+        });
+
+        initGame();
+        draw();
+        animationFrameId = requestAnimationFrame(loop);
+    })();
+</script>

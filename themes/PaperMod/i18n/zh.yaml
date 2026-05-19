@@ -1,0 +1,51 @@
+- id: prev_page
+  translation: "上一页"
+
+- id: next_page
+  translation: "下一页"
+
+- id: read_time
+  translation:
+    one : "1 分钟"
+    other: "{{ .Count }} 分钟"
+
+- id: words
+  translation: 
+    one: "字"
+    other: "{{ .Count }} 字"
+
+- id: toc
+  translation: "目录"
+
+- id: translations
+  translation: "语言"
+
+- id: home
+  translation: "主页"
+
+- id: edit_post
+  translation: "编辑"
+
+- id: code_copy
+  translation: "复制"
+
+- id: code_copied
+  translation: "已复制！"
+
+- id: research_direction_1_title
+  translation: "Multimodal Benchmarking"
+
+- id: research_direction_1_desc
+  translation: "以多模态任务作为 benchmark，测试 AI 在跨模态理解、推理和生成上的能力边界。包括且不限于：视觉-语言、图像-音频、文本-图像-视频等多模态任务"
+
+- id: research_direction_2_title
+  translation: "Multimodal Understanding"
+
+- id: research_direction_2_desc
+  translation: "研究 AI 在多模态信息融合和理解上的能力，包括跨感官语义表示、多模态特征整合、上下文推理等"
+
+- id: research_direction_3_title
+  translation: "Multimodal for Generation"
+
+- id: research_direction_3_desc
+  translation: "研究 AI 在多模态内容生成上的能力，包括图像-文本生成、音频-图像生成、跨模态内容创作和增强等"

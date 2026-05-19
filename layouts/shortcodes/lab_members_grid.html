@@ -1,0 +1,44 @@
+<div class="lab-members-grid {{ if .Get "cols" }}cols-{{ .Get "cols" }}{{ end }}">
+    {{ .Inner }}
+</div>
+
+<style>
+.lab-members-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem 1rem; /* Increased vertical gap slightly */
+    margin-bottom: 2rem;
+}
+
+.lab-members-grid .lab-member {
+    width: calc(33.333% - 1rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.lab-members-grid.cols-4 .lab-member {
+    width: calc(25% - 1rem);
+}
+
+.lab-members-grid.cols-5 .lab-member {
+    width: calc(20% - 1rem);
+}
+
+/* Responsive adjustment */
+@media screen and (max-width: 768px) {
+    .lab-members-grid .lab-member,
+    .lab-members-grid.cols-4 .lab-member,
+    .lab-members-grid.cols-5 .lab-member {
+        width: calc(50% - 1rem);
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .lab-members-grid .lab-member,
+    .lab-members-grid.cols-4 .lab-member,
+    .lab-members-grid.cols-5 .lab-member {
+        width: 100%;
+    }
+}
+</style>

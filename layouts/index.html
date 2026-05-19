@@ -1,0 +1,332 @@
+{{ define "main" }}
+  {{- $home := where site.RegularPages "Type" "home" | first 1 -}}
+  {{- with index $home 0 -}}
+    {{- $variant := site.Params.homeStyle | default (.Params.homeVariant | default "classic") -}}
+    {{- if eq $variant "modern" -}}
+    <article class="post-single home-landing home-landing--modern">
+      <style>
+        .home-landing--modern {
+          position: relative;
+          z-index: 1;
+          overflow: hidden;
+        }
+
+        .home-landing--modern::before {
+          content: "";
+          position: fixed;
+          inset: 0;
+          pointer-events: none;
+          background: #f5f7f4;
+          opacity: 1;
+        }
+
+        .dark .home-landing--modern::before {
+          background: #0f1720;
+        }
+
+        .home-landing--modern .post-content {
+          display: grid;
+          gap: 2rem;
+          max-width: 1180px;
+          margin: 0 auto;
+        }
+
+        .home-landing--modern .post-content > h3 {
+          margin: 0;
+          padding-left: 1rem;
+          border-left: 4px solid #1f6f78;
+          font-size: clamp(1.4rem, 2vw, 1.9rem);
+          letter-spacing: 0.02em;
+        }
+
+        .dark .home-landing--modern .post-content > h3 {
+          border-left-color: #4ecdc4;
+        }
+
+        .home-landing--modern .mission-container {
+          position: relative;
+          display: flex !important;
+          gap: 0;
+          max-width: none;
+          margin: 0;
+          padding: clamp(1.25rem, 2vw, 1.75rem);
+          border: 1px solid rgba(28, 63, 91, 0.12);
+          border-radius: 34px;
+          background:
+            linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(242, 247, 246, 0.88)),
+            #fff;
+          box-shadow: 0 24px 70px rgba(25, 43, 58, 0.12);
+          overflow: hidden;
+        }
+
+        .dark .home-landing--modern .mission-container {
+          border-color: rgba(78, 205, 196, 0.14);
+          background:
+            linear-gradient(135deg, rgba(18, 31, 43, 0.96), rgba(22, 39, 52, 0.92)),
+            #111920;
+          box-shadow: 0 24px 70px rgba(0, 0, 0, 0.34);
+        }
+
+        .home-landing--modern .mission-container::before {
+          content: "";
+          position: absolute;
+          inset: auto -8% -30% auto;
+          width: 320px;
+          height: 320px;
+          border-radius: 999px;
+          background: radial-gradient(circle, rgba(31, 111, 120, 0.16), transparent 68%);
+          pointer-events: none;
+        }
+
+        .dark .home-landing--modern .mission-container::before {
+          background: radial-gradient(circle, rgba(78, 205, 196, 0.18), transparent 68%);
+        }
+
+        .home-landing--modern .quote-block {
+          flex: 1.2;
+          padding: clamp(1.75rem, 3vw, 3rem);
+          font-family: "Georgia", "Times New Roman", serif;
+          font-size: 1.08rem !important;
+          line-height: 1.9 !important;
+        }
+
+        .home-landing--modern .quote-block::before,
+        .home-landing--modern .quote-block::after {
+          border-width: 6px;
+        }
+
+        .home-landing--modern .mission-image {
+          flex: 0.9;
+          padding: 1.2rem;
+        }
+
+        .home-landing--modern .mission-image a {
+          display: block;
+          width: 100%;
+        }
+
+        .home-landing--modern .mission-image img {
+          max-width: 420px;
+          width: 100%;
+          aspect-ratio: 4 / 4.4;
+          border-radius: 28px !important;
+          object-fit: cover;
+          box-shadow: 0 20px 50px rgba(18, 31, 43, 0.22) !important;
+        }
+
+        .home-landing--modern .research-directions {
+          display: grid !important;
+          grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+          gap: 1.25rem !important;
+          margin: 0;
+        }
+
+        .home-landing--modern .direction-card {
+          position: relative;
+          min-width: 0;
+          padding: 1.8rem 1.5rem 1.6rem;
+          border-radius: 26px !important;
+          text-align: left !important;
+          background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(245, 248, 247, 0.96));
+          border: 1px solid rgba(31, 111, 120, 0.12);
+          box-shadow: 0 16px 36px rgba(22, 42, 54, 0.08) !important;
+          overflow: hidden;
+        }
+
+        .dark .home-landing--modern .direction-card {
+          background: linear-gradient(180deg, rgba(18, 31, 43, 0.96), rgba(23, 38, 51, 0.94));
+          border-color: rgba(78, 205, 196, 0.12);
+          box-shadow: 0 16px 36px rgba(0, 0, 0, 0.24) !important;
+        }
+
+        .home-landing--modern .direction-card .icon {
+          width: 58px;
+          height: 58px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 1rem !important;
+          border-radius: 18px;
+          font-size: 1.5rem !important;
+          color: #fff;
+          background: linear-gradient(135deg, #1f6f78, #2b8a8f);
+          box-shadow: 0 12px 28px rgba(31, 111, 120, 0.24);
+        }
+
+        .dark .home-landing--modern .direction-card .icon {
+          color: #062126;
+          background: linear-gradient(135deg, #4ecdc4, #7ae6d4);
+          box-shadow: 0 12px 28px rgba(78, 205, 196, 0.2);
+        }
+
+        .home-landing--modern .direction-card h3 {
+          font-size: 1.12rem !important;
+        }
+
+        .home-landing--modern .direction-card p {
+          font-size: 0.96rem !important;
+          line-height: 1.75 !important;
+        }
+
+        .home-landing--modern .news-section {
+          margin: 0;
+          padding: 1.4rem 1.5rem !important;
+          border-left: 0 !important;
+          border: 1px solid rgba(28, 63, 91, 0.12);
+          border-radius: 24px !important;
+          background: rgba(255, 255, 255, 0.86);
+          box-shadow: 0 14px 36px rgba(22, 42, 54, 0.07);
+        }
+
+        .dark .home-landing--modern .news-section {
+          border-color: rgba(78, 205, 196, 0.12);
+          background: rgba(16, 29, 40, 0.88);
+          box-shadow: 0 14px 36px rgba(0, 0, 0, 0.2);
+        }
+
+        .home-landing--modern .news-entry {
+          margin-bottom: 0.9rem !important;
+          padding: 0.95rem 1rem 0.95rem 1.1rem;
+          border-radius: 18px !important;
+          background: rgba(244, 248, 247, 0.95);
+          transition: transform 180ms ease, background-color 180ms ease;
+        }
+
+        .dark .home-landing--modern .news-entry {
+          background: rgba(24, 40, 53, 0.9);
+        }
+
+        .home-landing--modern .news-entry:hover {
+          transform: translateX(6px);
+        }
+
+        .home-landing--modern .news-entry::before {
+          left: -0.15rem !important;
+          top: 1.35rem !important;
+          width: 0.72rem !important;
+          height: 0.72rem !important;
+          background: #1f6f78;
+          border-color: transparent;
+        }
+
+        .dark .home-landing--modern .news-entry::before {
+          background: #4ecdc4;
+        }
+
+        .home-landing--modern .news-header {
+          justify-content: space-between;
+          gap: 1rem !important;
+          align-items: center;
+        }
+
+        .home-landing--modern .news-date {
+          display: inline-flex;
+          align-items: center;
+          min-width: 72px;
+          padding: 0.28rem 0.6rem;
+          border-radius: 999px !important;
+          font-size: 0.78rem !important;
+          font-weight: 700 !important;
+          letter-spacing: 0.04em;
+          color: #1f6f78;
+          background: rgba(31, 111, 120, 0.12);
+        }
+
+        .dark .home-landing--modern .news-date {
+          color: #4ecdc4;
+          background: rgba(78, 205, 196, 0.12);
+        }
+
+        .home-landing--modern .news-title {
+          flex: 1;
+          font-size: 1.02rem !important;
+          font-weight: 600 !important;
+          line-height: 1.55;
+        }
+
+        @media screen and (max-width: 900px) {
+          .home-landing--modern .mission-container {
+            flex-direction: column;
+            align-items: stretch;
+          }
+
+          .home-landing--modern .mission-image {
+            padding-top: 0;
+          }
+
+          .home-landing--modern .mission-image img {
+            max-width: none;
+            aspect-ratio: 16 / 10;
+          }
+
+          .home-landing--modern .news-header {
+            align-items: flex-start;
+            flex-direction: column;
+          }
+        }
+
+        @media screen and (max-width: 700px) {
+          .home-landing--modern .post-content {
+            gap: 1.3rem;
+          }
+
+          .home-landing--modern .mission-container {
+            padding: 1rem;
+            border-radius: 24px;
+          }
+
+          .home-landing--modern .quote-block {
+            padding: 1.2rem;
+            font-size: 1rem !important;
+          }
+
+          .home-landing--modern .research-directions {
+            grid-template-columns: 1fr !important;
+          }
+
+          .home-landing--modern .news-section {
+            padding: 1rem !important;
+            border-radius: 20px !important;
+          }
+        }
+      </style>
+      <div class="post-content">
+        {{ .Content }}
+      </div>
+    </article>
+    {{- else -}}
+    <article class="post-single" style="position: relative; z-index: 1;">
+      <header class="post-header">
+        {{ partial "breadcrumbs.html" . }}
+        <h1 class="post-title entry-hint-parent">
+          {{ .Title }}
+          {{- if .Draft }}
+          <span class="entry-hint" title="Draft">
+            <svg xmlns="http://www.w3.org/2000/svg" height="35" viewBox="0 -960 960 960" fill="currentColor">
+            <path d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
+            </svg>
+          </span>
+          {{- end }}
+        </h1>
+        {{- if .Description }}
+        <div class="post-description">
+          {{ .Description }}
+        </div>
+        {{- end }}
+        {{- if not (.Param "hideMeta") }}
+        <div class="post-meta">
+          {{- partial "post_meta.html" . -}}
+          {{- partial "edit_post.html" . -}}
+          {{- partial "post_canonical.html" . -}}
+        </div>
+        {{- end }}
+      </header>
+      {{- $isHidden := false }}
+      {{- partial "cover.html" (dict "cxt" . "IsSingle" true "isHidden" $isHidden) }}
+      <div class="post-content">
+        {{ .Content }}
+      </div>
+    </article>
+    {{- end -}}
+  {{- end -}}
+{{ end }}

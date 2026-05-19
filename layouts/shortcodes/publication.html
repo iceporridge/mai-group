@@ -1,0 +1,90 @@
+{{- $style := site.Params.publicationStyle | default "legacy" -}}
+{{- if eq $style "enhanced" -}}
+{{- $venue := .Get "venue" | default "" -}}
+{{- $venueSlug := lower $venue -}}
+{{- $venueClass := "venue-generic" -}}
+{{- if in $venueSlug "cvpr" -}}
+    {{- $venueClass = "venue-cvpr" -}}
+{{- else if in $venueSlug "iccv" -}}
+    {{- $venueClass = "venue-iccv" -}}
+{{- else if in $venueSlug "eccv" -}}
+    {{- $venueClass = "venue-eccv" -}}
+{{- else if in $venueSlug "neurips" -}}
+    {{- $venueClass = "venue-neurips" -}}
+{{- else if in $venueSlug "iclr" -}}
+    {{- $venueClass = "venue-iclr" -}}
+{{- else if in $venueSlug "icml" -}}
+    {{- $venueClass = "venue-icml" -}}
+{{- else if in $venueSlug "aaai" -}}
+    {{- $venueClass = "venue-aaai" -}}
+{{- else if in $venueSlug "ijcai" -}}
+    {{- $venueClass = "venue-ijcai" -}}
+{{- else if in $venueSlug "acm mm" -}}
+    {{- $venueClass = "venue-acmmm" -}}
+{{- else if in $venueSlug "miccai" -}}
+    {{- $venueClass = "venue-miccai" -}}
+{{- else if in $venueSlug "arxiv" -}}
+    {{- $venueClass = "venue-arxiv" -}}
+{{- end -}}
+{{- $authorsRaw := .Inner | plainify | chomp -}}
+{{- $authorTokens := split $authorsRaw "," -}}
+{{- $authorsScratch := newScratch -}}
+{{- $authorsScratch.Set "items" (slice) -}}
+{{- range $authorTokens -}}
+    {{- $author := strings.TrimSpace . -}}
+    {{- $renderedAuthor := $author -}}
+    {{- if in site.Params.highlightAuthors $author -}}
+        {{- $renderedAuthor = printf "<span class=\"publication-card__author-highlight\">%s</span>" $author -}}
+    {{- end -}}
+    {{- $authorsScratch.Add "items" (slice $renderedAuthor) -}}
+{{- end -}}
+{{- $authors := delimit ($authorsScratch.Get "items") ", " -}}
+<article class="publication-card publication-reference {{ $venueClass }}" data-topic="{{ .Params.topic }}">
+    <div class="publication-card__body">
+        <div class="publication-card__meta">
+            <span class="publication-card__venue">{{ $venue }}</span>
+            {{ with .Get "award" }}
+                <span class="publication-card__award">{{ . }}</span>
+            {{ end }}
+        </div>
+        <h3 class="publication-card__title">
+            <a href="{{ .Get "paperLink" }}">{{ .Get "title" }}</a>
+        </h3>
+        {{ with $authors }}
+        <div class="publication-card__authors">
+            {{ . | safeHTML }}
+        </div>
+        {{ end }}
+        <div class="publication-card__actions">
+            {{ with .Get "paperLink" }}
+                <a class="publication-card__button" href="{{ . }}">paper</a>
+            {{ end }}
+            {{ with .Get "codeLink" }}
+                <a class="publication-card__button" href="{{ . }}">code</a>
+            {{ end }}
+            {{ with .Get "project" }}
+                <a class="publication-card__button" href="{{ . }}">project</a>
+            {{ end }}
+        </div>
+    </div>
+</article>
+{{- else -}}
+<div class="publication-reference" style="text-align: justify;" data-topic="{{ .Params.topic }}">
+    <p>
+    <a href="{{ .Get "paperLink" }}">{{ .Get "title" }}</a><br>
+    {{ .Inner }}<br>
+    <strong>{{ .Get "venue" }}</strong>
+    {{ with .Get "award" }}
+        <strong style="color: red;">({{ . }})</strong>
+    {{ end }}
+
+        <br>
+    {{ with .Get "codeLink" }}
+        [<a href="{{ . }}">code</a>]
+    {{ end }}
+    {{ with .Get "project" }}
+        [<a href="{{ . }}">project</a>]
+    {{ end }}
+    </p>
+</div>
+{{- end -}}

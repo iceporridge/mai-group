@@ -1,0 +1,119 @@
+<head>
+    <!-- Other head elements -->
+    <style>
+        .lab-member img,
+        .lab-member h3,
+        .lab-member p,
+        .lab-member .social-links {
+            margin-top: 0;
+            margin-bottom: 0px;
+        }
+        .lab-member h3 {
+            font-size: 1.25rem;
+            margin-top: 10px;
+        }
+        .lab-member p, .lab-member .social-links {
+            font-size: 1.0rem;
+        }
+        .lab-member {
+            display: grid;
+            justify-items: center;
+            text-align: center;
+        }
+
+        /* Flip Animation Styles */
+        .flip-container {
+            width: min(100%, 180px);
+            aspect-ratio: 1 / 1;
+            margin-bottom: 10px;
+        }
+
+        .flip-card {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            cursor: default;
+        }
+
+        .lab-member:hover .flip-front img {
+            animation: avatar-shake 320ms ease-in-out;
+        }
+
+        .flip-front {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .flip-front img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .flip-back {
+            display: none;
+        }
+
+        @keyframes avatar-shake {
+            0% { transform: translateX(0) rotate(0deg); }
+            20% { transform: translateX(-2px) rotate(-1deg); }
+            40% { transform: translateX(2px) rotate(1deg); }
+            60% { transform: translateX(-2px) rotate(-1deg); }
+            80% { transform: translateX(1px) rotate(0.5deg); }
+            100% { transform: translateX(0) rotate(0deg); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .lab-member:hover .flip-front img {
+                animation: none;
+            }
+        }
+    </style>
+    <!-- Include Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+
+<div class="lab-member">
+    <div class="flip-container">
+        <div class="flip-card">
+            <div class="flip-front">
+                {{ $profileLink := or (.Get "homepage") (.Get "website") (.Get "academic") }}
+                {{ if $profileLink }}
+                <a href="{{ $profileLink }}" target="_blank" rel="noopener noreferrer" aria-label="{{ .Get "name" }} homepage">
+                    <img src="{{ printf "img/members/%s" (.Get "image") | relURL }}" alt="{{ .Get "name" }}" class="lab-member-img">
+                </a>
+                {{ else }}
+                <img src="{{ printf "img/members/%s" (.Get "image") | relURL }}" alt="{{ .Get "name" }}" class="lab-member-img">
+                {{ end }}
+            </div>
+            <div class="flip-back">
+                {{ $profileLink := or (.Get "homepage") (.Get "website") (.Get "academic") }}
+                {{ if $profileLink }}
+                <a href="{{ $profileLink }}" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-home"></i>
+                    <span>Homepage</span>
+                </a>
+                {{ else }}
+                <div class="no-link-back">
+                    <i class="fas fa-user"></i>
+                    <span>{{ .Get "name" }}</span>
+                </div>
+                {{ end }}
+            </div>
+        </div>
+    </div>
+    <h3>{{ .Get "name" }}</h3>
+    <p>{{ .Get "role" }}</p>
+    <div class="social-links">
+        {{ if .Get "twitter" }}
+        <a href="{{ .Get "twitter" }}"><i class="fab fa-x-twitter"></i></a>
+        {{ end }}
+        {{ if .Get "linkedin" }}
+            <a href="{{ .Get "linkedin" }}"><i class="fab fa-linkedin"></i></a>
+        {{ end }}
+    </div>
+</div>

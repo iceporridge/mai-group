@@ -1,0 +1,128 @@
+baseURL: 'http://localhost:1313/'
+
+title: 'mai-group'
+theme: 'PaperMod'
+
+googleAnalytics: 'G-T4DXGLCH1D'
+
+defaultContentLanguage: zh
+
+# Setup build timeout of hugo (in seconds)
+# FIXME: This is a workaround for rendering differnet sizes of the gif images.
+timeout: 90 # seconds
+
+pagination:
+  pagerSize: 200
+
+markup:
+  goldmark:
+    extensions:
+      passthrough:
+        delimiters:
+          block:
+          - - \[
+            - \]
+          - - $$
+            - $$
+          inline:
+          - - $
+            - $
+        enable: true
+    renderer:
+      unsafe: true
+
+params:
+  env: production
+  math: true
+  homeStyle: "classic"
+  publicationStyle: "enhanced"
+  newsStyle: "enhanced"
+  highlightAuthors:
+    - "H Mai"
+    - "R Sun"
+    - "T Zhang"
+    - "Y Pan"
+    - "N Luo"
+    - "Z Li"
+    - "W Li"
+    - "Y Wang"
+    - "Y Chen"
+    - "G Xiong"
+    - "H Lai"
+    - "X Liu"
+    - "S Chen"
+  label:
+    icon: "img/mai_icon2.png"
+  assets:
+    css:
+      - "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+
+languages:
+  en:
+    label: "English"
+    weight: 2
+    menu:
+      main:
+        - identifier: Home
+          name: Home
+          url: /
+          weight: 10
+        - identifier: News
+          name: News
+          url: /news/
+          weight: 20
+        - identifier: Projects
+          name: Projects
+          url: /projects/
+          weight: 30
+        - identifier: Publications
+          name: Publications
+          url: /publications/
+          weight: 40
+        - identifier: Members
+          name: Members
+          url: /people/
+          weight: 50
+        - identifier: Join us
+          name: Join us
+          url: /contact/
+          weight: 60
+  zh:
+    label: "中文"
+    weight: 1
+    menu:
+      main:
+        - identifier: Home
+          name: 首页
+          url: /
+          weight: 10
+        - identifier: News
+          name: 新闻
+          url: /news/
+          weight: 20
+        - identifier: Projects
+          name: 项目
+          url: /projects/
+          weight: 30
+        - identifier: Publications
+          name: 论文
+          url: /publications/
+          weight: 40
+        - identifier: Members
+          name: 成员
+          url: /people/
+          weight: 50
+        - identifier: Join us
+          name: 加入我们
+          url: /contact/
+          weight: 60
+
+outputs:
+  home:
+    - HTML
+  section:
+    - HTML
+  taxonomy:
+    - HTML
+  term:
+    - HTML

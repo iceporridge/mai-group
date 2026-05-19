@@ -1,0 +1,208 @@
+<section class="research-cloud-panel">
+    <div class="research-cloud-panel__header">
+        <div>
+            <p class="research-cloud-panel__eyebrow">Research Map</p>
+            <h3 class="research-cloud-panel__title">研究方向</h3>
+        </div>
+        <p class="research-cloud-panel__desc">围绕理解、生成、交互与评测展开的核心主题。</p>
+    </div>
+
+    <div class="research-cloud">
+        <span class="research-cloud__word size-xl theme-core tilt-lift">多模态智能</span>
+        <span class="research-cloud__word size-lg theme-understanding tilt-soft">视觉语言理解</span>
+        <span class="research-cloud__word size-md theme-evaluation tilt-right">多模态评测</span>
+        <span class="research-cloud__word size-lg theme-generation tilt-left">内容生成</span>
+        <span class="research-cloud__word size-sm theme-interaction tilt-soft">智能体交互</span>
+        <span class="research-cloud__word size-md theme-understanding tilt-right">推理能力</span>
+        <span class="research-cloud__word size-lg theme-interaction tilt-lift">游戏智能</span>
+        <span class="research-cloud__word size-sm theme-generation tilt-left">图像编辑</span>
+        <span class="research-cloud__word size-md theme-interaction tilt-soft">人机协作</span>
+        <span class="research-cloud__word size-sm theme-understanding tilt-right">视听理解</span>
+        <span class="research-cloud__word size-md theme-interaction tilt-left">具身系统</span>
+        <span class="research-cloud__word size-sm theme-generation tilt-soft">创作工具</span>
+        <span class="research-cloud__word size-lg theme-evaluation tilt-right">能力分析</span>
+        <span class="research-cloud__word size-md theme-understanding tilt-lift">视觉大模型</span>
+        <span class="research-cloud__word size-sm theme-generation tilt-left">跨模态创作</span>
+    </div>
+</section>
+
+<style>
+.research-cloud-panel {
+    margin: 2rem 0 2.5rem;
+    padding: 1.35rem 1.35rem 1.1rem;
+    border: 1px solid rgba(50, 60, 70, 0.12);
+    border-radius: 24px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(246, 248, 247, 0.82));
+    box-shadow: 0 14px 34px rgba(20, 30, 40, 0.06);
+}
+
+.research-cloud-panel__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.research-cloud-panel__eyebrow {
+    margin: 0 0 0.15rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #1f6f78;
+}
+
+.research-cloud-panel__title {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 800;
+}
+
+.research-cloud-panel__desc {
+    margin: 0;
+    color: var(--secondary);
+    font-size: 0.95rem;
+    text-align: right;
+}
+
+.research-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.8rem 0.9rem;
+}
+
+.research-cloud__word {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.42rem 0.85rem;
+    border-radius: 999px;
+    line-height: 1.1;
+    color: var(--primary);
+    border: 1px solid transparent;
+    box-shadow: 0 6px 14px rgba(20, 30, 40, 0.04);
+    transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+    white-space: nowrap;
+}
+
+.research-cloud__word:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 10px 18px rgba(20, 30, 40, 0.08);
+}
+
+.research-cloud__word.size-xl {
+    font-size: 1.65rem;
+    font-weight: 800;
+    letter-spacing: 0.01em;
+}
+
+.research-cloud__word.size-lg {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.research-cloud__word.size-md {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.research-cloud__word.size-sm {
+    font-size: 0.86rem;
+    font-weight: 600;
+    opacity: 0.95;
+}
+
+.theme-core {
+    background: rgba(31, 111, 120, 0.14);
+    border-color: rgba(31, 111, 120, 0.16);
+}
+
+.theme-understanding {
+    background: rgba(42, 95, 160, 0.12);
+    border-color: rgba(42, 95, 160, 0.15);
+}
+
+.theme-generation {
+    background: rgba(196, 101, 72, 0.12);
+    border-color: rgba(196, 101, 72, 0.15);
+}
+
+.theme-interaction {
+    background: rgba(94, 130, 86, 0.12);
+    border-color: rgba(94, 130, 86, 0.15);
+}
+
+.theme-evaluation {
+    background: rgba(132, 92, 168, 0.12);
+    border-color: rgba(132, 92, 168, 0.15);
+}
+
+.tilt-left { transform: rotate(-3deg); }
+.tilt-right { transform: rotate(3deg); }
+.tilt-soft { transform: rotate(1.5deg); }
+.tilt-lift { transform: translateY(-2px) rotate(-1deg); }
+
+.dark .research-cloud-panel {
+    border-color: rgba(180, 190, 200, 0.12);
+    background: linear-gradient(180deg, rgba(17, 24, 33, 0.9), rgba(15, 22, 31, 0.86));
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
+}
+
+.dark .research-cloud-panel__eyebrow {
+    color: #4ecdc4;
+}
+
+.dark .theme-core {
+    background: rgba(78, 205, 196, 0.16);
+    border-color: rgba(78, 205, 196, 0.18);
+}
+
+.dark .theme-understanding {
+    background: rgba(95, 145, 214, 0.16);
+    border-color: rgba(95, 145, 214, 0.18);
+}
+
+.dark .theme-generation {
+    background: rgba(224, 125, 97, 0.16);
+    border-color: rgba(224, 125, 97, 0.18);
+}
+
+.dark .theme-interaction {
+    background: rgba(118, 172, 106, 0.16);
+    border-color: rgba(118, 172, 106, 0.18);
+}
+
+.dark .theme-evaluation {
+    background: rgba(167, 120, 214, 0.16);
+    border-color: rgba(167, 120, 214, 0.18);
+}
+
+@media (max-width: 768px) {
+    .research-cloud-panel {
+        padding: 1rem 0.9rem 0.9rem;
+    }
+
+    .research-cloud-panel__header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .research-cloud-panel__desc {
+        text-align: left;
+    }
+
+    .research-cloud {
+        gap: 0.65rem 0.7rem;
+    }
+
+    .research-cloud__word.size-xl {
+        font-size: 1.3rem;
+    }
+
+    .research-cloud__word.size-lg {
+        font-size: 1.05rem;
+    }
+}
+</style>

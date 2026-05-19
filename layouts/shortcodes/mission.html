@@ -1,0 +1,133 @@
+<style>
+
+
+/* 
+  Day: #2D4366
+  Night: #4ecdc4 
+*/
+
+:root {
+  --quote-border-color: #2D4366;
+}
+
+
+:root .dark{
+  --quote-border-color: #4ecdc4;
+}
+
+.mission-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  margin: 0 auto 3em auto;
+  max-width: 1100px;
+}
+
+.quote-block {
+  position: relative;
+  padding: 3em;
+  flex: 1.5;
+  min-width: 280px;
+  margin: 0;
+  font-family: Georgia, serif;
+  font-size: 1.2em;
+  line-height: 1.6;
+  border: 1px solid transparent;
+}
+
+.mission-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mission-image img {
+  width: 100%;
+  max-width: 350px;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  transition: all 0.3s ease;
+}
+
+.mission-image img:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+}
+
+.quote-block::before,
+.quote-block::after {
+  position: absolute;
+  width: 40px;
+  height: 30px;
+  border: 8px solid;
+  border-color: var(--quote-border-color);
+}
+
+.quote-block::before {
+  content: "";
+  top: 2em;
+  left: 1em;
+  border-right: none;
+  border-bottom: none;
+}
+
+.quote-block::after {
+  content: "";
+  bottom: 2em;
+  right: 1em;
+  border-left: none;
+  border-top: none;
+}
+
+@media screen and (max-width: 768px) {
+  .mission-container {
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .quote-block {
+    padding: 2em;
+    font-size: 1.1em;
+  }
+
+  .quote-block::before,
+  .quote-block::after {
+    width: 20px;
+    height: 20px;
+    border-width: 5px;
+  }
+}
+
+/* Small mobile devices */
+@media screen and (max-width: 480px) {
+  .quote-block {
+    padding: 1.5em;
+    font-size: 1em;
+  }
+
+  .quote-block::before,
+  .quote-block::after {
+    width: 15px;
+    height: 15px;
+    border-width: 4px;
+  }
+}
+
+</style>
+
+<div class="mission-container">
+    <div class="quote-block">
+        {{ .Inner }}
+    </div>
+    {{ with .Get "image" }}
+    <div class="mission-image">
+        {{ if $.Get "link" }}<a href="{{ $.Get "link" }}" target="_blank">{{ end }}
+        <img src="{{ . | relURL }}" alt="{{ $.Get "alt" | default "Mission Image" }}">
+        {{ if $.Get "link" }}</a>{{ end }}
+    </div>
+    {{ end }}
+</div>
